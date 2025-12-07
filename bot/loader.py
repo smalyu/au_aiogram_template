@@ -4,6 +4,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.utils.callback_answer import CallbackAnswerMiddleware
 from loguru import logger
 from redis.asyncio.client import Redis
 
@@ -47,6 +48,7 @@ log.info("Start")
 user_request_logger = UserRequestLoggingMiddleware()
 bot_request_logger = BotRequestLoggingMiddleware()
 
+dp.callback_query.middleware(CallbackAnswerMiddleware())
 dp.message.middleware(user_request_logger)
 dp.callback_query.middleware(user_request_logger)
 bot.session.middleware(bot_request_logger)
