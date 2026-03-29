@@ -12,6 +12,7 @@ Main code lives in `bot/`.
 - `bot/services/` contains business logic, analytics, middleware, and Taskiq tasks.
 - `bot/view/` contains texts, buttons, and keyboards.
 - `bot/config.py`, `bot/loader.py`, `bot/bot_start.py`, and `bot/taskiq_worker.py` contain startup and runtime wiring.
+- `tests/` contains pytest coverage for bot flows, services, and Taskiq queue behavior.
 - `config/systemd/` and `config/nginx/` contain deployment examples.
 - `tools/` contains utility scripts such as broadcasts and exports.
 
@@ -23,6 +24,10 @@ The project uses `uv`.
 - `cd bot && uv run taskiq worker --ack-type when_received taskiq_worker:broker services.tasks --workers 1` starts the background worker.
 - `cd bot && uv run taskiq scheduler taskiq_worker:scheduler services.tasks` starts scheduled jobs.
 - `uv run ruff check .` runs linting.
+- `uv run pytest -q` runs the test suite.
 
 ## Code Conventions
 Use 4-space indentation, snake_case for modules and functions, PascalCase for classes, and UPPER_SNAKE_CASE for config constants. Keep handlers thin: move reusable logic into `bot/services/`, and keep user-facing texts and keyboards in `bot/view/`.
+
+## Testing Guidelines
+Write pytest tests that protect meaningful bot, queue, and business behavior, and avoid low-value checks tied only to strings, transport details, or trivial implementation internals.
